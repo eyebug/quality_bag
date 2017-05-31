@@ -1,0 +1,475 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600,700);
+
+* {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    /*BACKGROUND FROM: subtlepatterns.com*/
+    background: url(../image/footer_lodyas.png);
+    padding-top: 135px;
+    margin-top: 20px;
+    color: white;
+}
+
+.navlayout {
+    list-style-type: none;
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    background: #222;
+}
+
+.navItem, .navItem a {
+    display: inline-block;
+    flex-grow: 1;
+}
+
+.navItem a {
+    width: 100%;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(34, 34, 34, 0.4);
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.navItem:nth-of-type(1) {
+    border-bottom: 2px solid #D60F3A;
+}
+
+.navItem:nth-of-type(1) a:hover {
+    background: #D60F3A;
+}
+
+.navItem:nth-of-type(2) {
+    border-bottom: 2px solid #8317AD;
+}
+
+.navItem:nth-of-type(2) a:hover {
+    background: #8317AD;
+}
+
+.navItem:nth-of-type(3) {
+    border-bottom: 2px solid #3116DE;
+}
+
+.navItem:nth-of-type(3) a:hover {
+    background: #3116DE;
+}
+
+.navItem:nth-of-type(4) {
+    border-bottom: 2px solid #0E8FC2;
+}
+
+.navItem:nth-of-type(4) a:hover {
+    background: #0E8FC2;
+}
+
+.navItem:nth-of-type(5) {
+    border-bottom: 2px solid #0EC23E;
+}
+
+.navItem:nth-of-type(5) a:hover {
+    background: #0EC23E;
+}
+
+.navItem:nth-of-type(6) {
+    border-bottom: 2px solid #CFCF13;
+}
+
+.navItem:nth-of-type(6) a:hover {
+    background: #CFCF13;
+}
+
+.navItem:nth-of-type(7) {
+    border-bottom: 2px solid #fb9eb1;
+}
+
+.navItem:nth-of-type(7) a:hover {
+    background: #fb9eb1;
+}
+
+li.dropdown:hover > .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu {
+    transition: all .4s ease-in-out;
+    background-color: #222;
+}
+
+.dropdown-menu > li > a {
+    transition: all .4s ease-in-out;
+    color: #fff;
+}
+
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus,
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+    transition: all .4s ease-in-out;
+    color: #C0FF3E;
+    background-color: #080808;
+}
+
+.dropdown-menu > .active > a {
+    color: #C0FF3E;
+    background-color: #080808;
+}
+
+.navbar-brand {
+    font-weight: 600;
+    font-size: 18px;
+    color: white;
+}
+
+.narbar-nomargin {
+    margin-right: 5px;
+}
+
+.nardropcolor {
+    color: #C0FF3E;
+}
+
+.h1color {
+    color: #F0FFF0;
+}
+
+$
+primary-light-blue: #8DB9ED
+
+;
+$
+primary-line-color: #ccc
+
+;
+* {
+    box-sizing: border-box
+}
+
+html, body {
+    height: 100%
+}
+
+body {
+    font: 14px "Open Sans", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: auto;
+    display: flex;
+    flex-flow: column nowrap;
+/ / This justify-content is essentially unnecessary in Firefox and Chrome due to the flex : 1 1 auto on the main . However, it 's needed to push the footer down on IE11 justify-content : space-between
+}
+
+ul {
+    list-style: none
+}
+
+a {
+    text-decoration: none
+}
+
+.generic-anchor {
+    color: $ primary-light-blue;
+
+&
+:visited {
+    color: $ primary-light-blue
+}
+
+&
+:hover {
+    color: $ primary-line-color
+}
+
+}
+.flex-rw {
+    display: flex;
+    flex-flow: row wrap;
+
+}
+
+/
+/
+This main is mostly to push the footer to the bottom and for demo purposes.
+main {
+    flex: 1 1 auto;
+/ / For IE11 display : flex;
+    align-items: center;
+    justify-content: center;
+    font: 10em "Oswald", sans-serif;
+    color: rgb(155, 155, 155);
+    line-height: 1
+}
+
+footer {
+    background: rgb(55, 55, 55);
+    margin-top: auto;
+    width: 100%
+}
+
+.footer-list-top {
+    width: 33.333%
+}
+
+.footer-list-top > li {
+    text-align: center;
+    padding-bottom: 10px
+}
+
+.footer-list-header {
+    padding: 10px 0 5px 0;
+    color: #fff;
+    font: 2.3vw "Oswald", sans-serif
+}
+
+.footer-list-anchor {
+    font: 1.3em "Open Sans", sans-serif
+}
+
+.footer-social-section {
+    width: 100%;
+    align-items: center;
+    justify-content: space-around;
+    position: relative;
+    margin-top: 5px;
+}
+
+.footer-social-section::after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 10px;
+    border-top: 1px solid $ primary-line-color;
+    width: calc(100% - 20px)
+}
+
+.footer-social-overlap {
+    position: relative;
+    z-index: 2;
+    background: rgb(55, 55, 55);
+    padding: 0 20px
+}
+
+.footer-social-connect {
+    display: flex;
+    align-items: center;
+    font: 3.5em "Oswald", sans-serif;
+    color: #fff
+}
+
+.footer-social-small {
+    font-size: 0.6em;
+    padding: 0px 20px
+}
+
+.footer-social-overlap > a {
+    font-size: 3em
+}
+
+.footer-social-overlap > a:not(:first-child) {
+    margin-left: 0.38em
+}
+
+.footer-bottom-section {
+    width: 100%;
+    padding: 10px;
+    border-top: 1px solid $ primary-line-color;
+    margin-top: 10px
+}
+
+.footer-bottom-section > div:first-child {
+    margin-right: auto
+}
+
+.footer-bottom-wrapper {
+    font-size: 1.5em;
+    color: #fff
+}
+
+.footer-address {
+    display: inline;
+    font-style: normal
+}
+
+a[title="Manage"] {
+    font-size: 14px;
+}
+
+.navbar-right-nomargin {
+    margin-right: 25px;
+}
+
+@media only screen and (max-width: 768px) {
+    .footer-list-header {
+        font-size: 2em
+    }
+
+    .footer-list-anchor {
+        font-size: 1.1em
+    }
+
+    .footer-social-connect {
+        font-size: 2.5em
+    }
+
+    .footer-social-overlap > a {
+        font-size: 2.24em
+    }
+
+    .footer-bottom-wrapper {
+        font-size: 1.3em
+    }
+}
+
+@media only screen and (max-width: 568px) {
+    main {
+        font-size: 5em
+    }
+
+    .footer-list-top {
+        width: 100%
+    }
+
+    .footer-list-header {
+        font-size: 3em;
+    }
+
+    .footer-list-anchor {
+        font-size: 1.5em
+    }
+
+    .footer-social-section {
+        justify-content: center
+    }
+
+    .footer-social-section::after {
+        top: 25%
+    }
+
+    .footer-social-connect {
+        margin-bottom: 10px;
+        padding: 0 10px
+    }
+
+    .footer-social-overlap {
+        display: flex;
+        justify-content: center;
+    }
+
+    .footer-social-icons-wrapper {
+        width: 100%;
+        padding: 0
+    }
+
+    .footer-social-overlap > a:not(:first-child) {
+        margin-left: 20px;
+    }
+
+    .footer-bottom-section {
+        padding: 0 5px 10px 5px
+    }
+
+    .footer-bottom-wrapper {
+        text-align: center;
+        width: 100%;
+        margin-top: 10px
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .footer-social-overlap > a {
+        margin: auto
+    }
+
+    .footer-social-overlap > a:not(:first-child) {
+        margin-left: 0;
+    }
+
+    .footer-bottom-rights {
+        display: block
+    }
+}
+
+.table-hover > tbody > tr:hover {
+    background-color: #363636;
+}
+
+@media only screen and (max-width: 320px) {
+    .footer-list-header {
+        font-size: 2.2em
+    }
+
+    .footer-list-anchor {
+        font-size: 1.2em
+    }
+
+    .footer-social-connect {
+        font-size: 2.4em
+    }
+
+    .footer-social-overlap > a {
+        font-size: 2.24em
+    }
+
+    .footer-bottom-wrapper {
+        font-size: 1.3em
+    }
+}
+
+.icons {
+    font-size: 2em;
+    cursor: default;
+    list-style: none;
+    padding-left;
+    0;
+    margin: 0 0 2em 0;
+}
+
+.icons li {
+    display: inline-block;
+    padding: 0 1em 0 0;
+}
+
+.icons span {
+    display: none;
+}
+
+footer {
+    padding: 3em 0 0 0;
+    text-align: center;
+    display: block;
+}
+
+.icon {
+    text-decoration: none;
+    border-bottom: none;
+    position: relative;
+}
+
+.icons a {
+    color: rgba(255, 255, 255, 0.5);
+    background-color: transparent;
+    transition: color 0.2s ease, border-bottom-color 0.2s ease;
+    cursor: auto;
+}
+
+.icon:before {
+    -webkit-font-smoothing: antialiased;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-transform: none !important;
+    box-sizing: border-box;
+}
+
+.col-md-10{
+    margin-bottom: 10px;
+}
