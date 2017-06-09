@@ -60,8 +60,8 @@ $result = $db->query("SELECT * FROM suppliers");
                 </td>
                 <td>
                     <a href="/Supplier/Edit.php?id=%7$s">Edit</a> |
-                    <a href="/Supplier/Details?id=%7$s">Details</a> |
-                    <a href="/Supplier/Delete?id=%7$s">Delete</a>
+                    <a href="/Supplier/Details.php?id=%7$s">Details</a> |
+                    <a href="/Supplier/Delete.php?id=%7$s">Delete</a>
                 </td>
             </tr>';
             foreach($result as $row){
