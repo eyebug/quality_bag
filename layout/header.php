@@ -45,12 +45,29 @@ $session = Session::getSession();
                     <li><a href="/Account/Login.php">Log in</a></li>
                 </ul>
             <?php } elseif (isset($_SESSION['role']) && $_SESSION['role'] == Session::ROLE_ADMIN) { ?>
+                <form method="post" id="logoutForm" class="navbar-right" action="/Account/LogOff.php">
+                    <ul class="nav navbar-nav navbar-right narbar-nomargin">
+                        <li class="dropdown">
+                            <a title="Manage" href="/Manage.php">Hello <?php echo $_SESSION['email']; ?>!</a>
+                            <ul class="dropdown-menu nardropcolor">
+                                <li><a href="/Accounts.php">Accounts</a></li>
+                                <li><a href="/Products.php">Products</a></li>
+                                <li><a href="/Suppliers.php">Suppliers</a></li>
+                                <li><a href="/Categories.php">Categories</a></li>
+                                <li><a href="/Orders.php">Orders</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
+                        </li>
+                    </ul>
+                </form>
 
             <?php } else { ?>
                 <form method="post" id="logoutForm" class="navbar-right" action="/Account/LogOff.php">
                     <ul class="nav navbar-nav navbar-right narbar-nomargin">
                         <li class="dropdown">
-                            <a title="Manage" href="/Manage.php">Hello <?php echo $_SESSION['email'];?>!</a>
+                            <a title="Manage" href="/Manage.php">Hello <?php echo $_SESSION['email']; ?>!</a>
                             <ul class="dropdown-menu nardropcolor">
                                 <li><a href="/Orders.php">Orders</a></li>
                             </ul>
@@ -59,6 +76,7 @@ $session = Session::getSession();
                             <button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
                         </li>
                     </ul>
+                </form>
             <?php } ?>
 
 

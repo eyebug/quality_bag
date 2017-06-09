@@ -34,8 +34,8 @@ class Session
         if (md5($password) == $result[0]['password']) {
             session_destroy();
             session_start();
-            foreach($result[0] as $key => $value){
-                if($key == "password") continue;
+            foreach ($result[0] as $key => $value) {
+                if ($key == "password") continue;
                 $_SESSION[$key] = $value;
             }
         } else {
@@ -60,6 +60,17 @@ class Session
         DB::getDB()->query("INSERT INTO users(name, email, password, mobile_no, homephone_no, workphone_no, address)
           VALUE (?,?,?,?,?,?,?)
         ", 'sssssss', $username, $email, $password, $mobileNo, $homephoneNo, $workPhoneNo, $address);
+    }
+
+    /**
+     * Check if the user is administrator
+     */
+    public function adminOnly()
+    {
+        if (!isset($_SESSION['role']) || $_SESSION['role'] != self::ROLE_ADMIN) {
+            echo "Permission deny";
+            require_once(dirname(__FILE__)."/../layout/footer.php");
+        }
     }
 
 }

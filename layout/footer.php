@@ -27,6 +27,10 @@
 <script>(window.jQuery && window.jQuery.fn && window.jQuery.fn.modal || document.write("\u003Cscript src=\u0022\/js\/bootstrap.min.js\u0022\u003E\u003C\/script\u003E"));</script>
 <script src="../js/site.js"></script>
 <script src="../js/jquery.storageapi.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+
 
 </body>
 </html>
+<?php exit;?>
