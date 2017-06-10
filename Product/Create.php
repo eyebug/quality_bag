@@ -1,16 +1,18 @@
 <?php
-require_once('./util/autoloader.php');
-require_once('./layout/header.php');
-?>
-<?php
+require_once('../util/autoloader.php');
+require_once('../layout/header.php');
+Session::getSession()->adminOnly();
 
-?>
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    $db = DB::getDB();
+    $suppliers = $db->query("SELECT * FROM suppliers;");
+    $categories = $db->query("SELECT * FROM categories;");
+    ?>
     <div class="container body-content">
 
         <h2>Create</h2>
 
-        <form enctype="multipart/form-data" action="/Create" method="post"
-              novalidate="novalidate">
+        <form enctype="multipart/form-data" action="/Product/Create.php" method="post" novalidate="novalidate">
             <div class="form-horizontal">
                 <h4>Bag</h4>
                 <hr>
@@ -52,11 +54,12 @@ require_once('./layout/header.php');
                     <div class="col-md-10">
                         <select class="form-control" data-val="true"
                                 data-val-required="The CategoryID field is required." id="CategoryID" name="CategoryID">
-                            <option value="1">Men</option>
-                            <option value="2">Women</option>
-                            <option value="3">Wallet</option>
-                            <option value="4">Children</option>
-                            <option value="5">sssssss</option>
+                            <?php
+                            foreach ($categories as $category) {
+                                $option = sprintf('<option value="%s">%s</option>', $category['id'], htmlentities($category['category_name']));
+                                echo $option;
+                            }
+                            ?>
                         </select>
                     </div>
                 </div>
@@ -66,8 +69,12 @@ require_once('./layout/header.php');
                     <div class="col-md-10">
                         <select class="form-control" data-val="true"
                                 data-val-required="The SupplierID field is required." id="SupplierID" name="SupplierID">
-                            <option value="2">Johns</option>
-                            <option value="3">Good Bag</option>
+                            <?php
+                            foreach ($suppliers as $supplier) {
+                                $option = sprintf('<option value="%s">%s</option>', $supplier['id'], htmlentities($supplier['supplier_name']));
+                                echo $option;
+                            }
+                            ?>
                         </select>
                     </div>
                 </div>
@@ -93,8 +100,8 @@ require_once('./layout/header.php');
                     <label class="col-md-2 control-label">Image Preview</label>
 
                     <div class="col-md-2">
-                        <img id="BagImage" style="width: 300px; height: 300px;"
-                             src="/chenc75/asp_assignment/images/default_bag.png" alt="Bag Image">
+                        <img id="BagImage" style="width: 300px; height: 300px;" src="/image/default_bag.png"
+                             alt="Bag Image">
                     </div>
                 </div>
                 <div class="form-group">
@@ -103,15 +110,52 @@ require_once('./layout/header.php');
                     </div>
                 </div>
             </div>
-            <input name="__RequestVerificationToken" type="hidden"
-                   value="CfDJ8NN71KqJMItDtonj4jg0i1FMuOgsJH_QDN_zvw2ndVPuOYpFZ_mxG-oE6a3PDo-VC6W6-rXh6i93Keh_lVMZqcnbMtR52jpYwd1v4sOfaACytYLLgZE8lirne4dn9lFlAhgjRF3AKdTtkCqbOdsFjP-iWbiS29clC4wez5MiYShDYiikQ1xt7TtqqWXTMiWgRQ">
         </form>
 
         <div>
-            <a href="/chenc75/asp_assignment/Products">Back to List</a>
+            <a href="/Products.php">Back to List</a>
         </div>
 
 
     </div>
+<?php } else {
+
+    $bagName = @$_POST['BagName'];
+    $brand = @$_POST['Brand'];
+    $price = @intval($_POST['Price']);
+    $categoryId = @intval($_POST['CategoryID']);
+    $supplierId = @intval($_POST['SupplierID']);
+    $description = @$_POST['Description'];
+
+    if (!empty($bagName) && !empty($price) && !empty($categoryId) && !empty($supplierId)) {
+        $image = $_FILES['_files'];
+        if ($image['error'] != 0 || strpos($image['type'], 'image') === false || $image['size'] > 1024 * 1024 * 5) {
+            echo "Image error, please image no more than 5MB";
+            require_once('../layout/footer.php');
+        } else {
+            $fileName = getRandomFileName('jpg');
+            $result = move_uploaded_file($image['tmp_name'], getImagesDir() . '/' . $fileName);
+            if($result === false){
+                throw new Exception("Upload image file failed!");
+            }
+            $imageUrl = getImageUrl($fileName);
+            try {
+                DB::getDB()->query("INSERT INTO
+            bags(bag_name, brand, category_id, description, image_url, price, supplier_id)
+            VALUE (?, ?, ?, ?, ?, ?, ?)", 'ssisssi',
+                    $bagName, $brand, $categoryId, $description, $imageUrl, $price, $supplierId);
+            } catch (Exception $e) {
+                echo $e->getMessage();
+                require_once('../layout/footer.php');
+
+            }
+        }
+
+    }
+
+    header("Location: /Products.php");
+
+} ?>
+
 <?php
-require_once('./layout/footer.php');
+require_once('../layout/footer.php');

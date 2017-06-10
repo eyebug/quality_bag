@@ -56,44 +56,44 @@ require_once('./layout/header.php');
                 <p>
                     Welcome to Quality Bags
                 </p>
-                <p><a class="btn btn-default" href="/DeleteSessionInBagView.php">See New Bags »</a></p>
+                <p><a class="btn btn-default" href="/Bags.php.php">See New Bags »</a></p>
             </div>
             <div class="col-md-4">
                 <h2>New In</h2>
                 <p>New Bags this Autumn</p>
-                <p><a class="btn btn-default" href="/DeleteSessionInBagView.php">See New Bags »</a></p>
+                <p><a class="btn btn-default" href="/Bags.php">See New Bags »</a></p>
             </div>
             <div class="col-md-4">
                 <h2>Sales</h2>
                 <p>Lowest Bags in Quality Bags</p>
-                <p><a class="btn btn-default" href="/DeleteSessionInBagView.php">See Sales »</a></p>
+                <p><a class="btn btn-default" href="/Bags.php">See Sales »</a></p>
             </div>
         </div>
 
         <br><br>
 
         <div>
-            <a href="/DeleteSessionInBagView">
+            <a href="/Bags.php">
                 <img src="/image/hopa5.png" alt="new in " style="width: 100%">
             </a>
         </div>
         <div>
-            <a href="/DeleteSessionInBagView">
+            <a href="/Bags.php">
                 <img src="/image/hopa2.png" alt="new in " style="width: 100%">
             </a>
         </div>
         <div>
-            <a href="/DeleteSessionInBagView">
+            <a href="/Bags.php">
                 <img src="/image/hopa4.png" alt="new in " style="width: 100%">
             </a>
         </div>
         <div>
-            <a href="/DeleteSessionInBagView">
+            <a href="/Bags.php">
                 <img src="/image/hopa3.png" alt="new in " style="width: 100%">
             </a>
         </div>
         <div>
-            <a href="/DeleteSessionInBagView">
+            <a href="/Bags.php">
                 <img src="/image/hopa5.png" alt="new in " style="width: 100%">
             </a>
         </div>

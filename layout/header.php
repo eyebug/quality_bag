@@ -50,7 +50,6 @@ $session = Session::getSession();
                         <li class="dropdown">
                             <a title="Manage" href="/Manage.php">Hello <?php echo $_SESSION['email']; ?>!</a>
                             <ul class="dropdown-menu nardropcolor">
-                                <li><a href="/Accounts.php">Accounts</a></li>
                                 <li><a href="/Products.php">Products</a></li>
                                 <li><a href="/Suppliers.php">Suppliers</a></li>
                                 <li><a href="/Categories.php">Categories</a></li>
@@ -83,7 +82,7 @@ $session = Session::getSession();
             <div>
                 <ul class="nav navlayout">
                     <li class="navItem"><a href="/index.php">Home</a></li>
-                    <li class="navItem"><a href="/DeleteSessionInBagView.php">Bags</a></li>
+                    <li class="navItem"><a href="/Bags.php">Bags</a></li>
                     <li class="navItem"><a href="/About.php">About Us</a></li>
                     <li class="navItem"><a href="/Contact.php">Contact Us</a></li>
                     <li class="navItem"><a href="/ShoppingCart.php">My Cart<span id="cart-amount" class="badge">0</span></a>

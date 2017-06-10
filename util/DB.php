@@ -88,12 +88,51 @@ class DB
         $stmt->execute();
         $res = $stmt->get_result();
         if ($stmt->error) {
-            throw new Exception("Error when execute sql");
+            throw new Exception($stmt->error);
         }
         while ($res && $row = $res->fetch_array(MYSQLI_ASSOC)) {
             array_push($result, $row);
         }
         return $result;
+    }
+
+    /**
+     * @param      $statement
+     * @param null $typeFormat
+     * @param      ...$params
+     * @return array
+     * @throws Exception
+     */
+    public function insert($statement, $typeFormat = null, ...$params)
+    {
+        $result = array();
+        $conn = $this->_conn;
+
+
+        if (is_null($typeFormat)) {
+            $res = $conn->query($statement, MYSQLI_ASSOC);
+            while ($row = $res->fetch_array(MYSQLI_ASSOC)) {
+                array_push($result, $row);
+            }
+            return $result;
+        }
+
+        $rParams = array();
+        $rParams[] = &$typeFormat;
+        foreach ($params as $key => $value) {
+            $rParams[] = &$params[$key];
+        }
+        $stmt = $conn->prepare($statement);
+        if ($stmt === false) {
+            throw new Exception('Wrong SQL: ' . $statement . ' Error: ' . $conn->errno . ' ' . $conn->error, E_USER_ERROR);
+        }
+
+        call_user_func_array(array($stmt, 'bind_param'), $rParams);
+        $stmt->execute();
+        if ($stmt->error) {
+            throw new Exception($stmt->error);
+        }
+        return $stmt->insert_id;
     }
 
 

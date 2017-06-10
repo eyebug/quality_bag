@@ -36,13 +36,14 @@ function imagePreview(elem) {
     reader.readAsDataURL(elem.files[0]);
 }
 
-var urlPrefixAfterDeploy = '/chenc75/asp_assignment';
+//var urlPrefixAfterDeploy = '/chenc75/asp_assignment';
+var urlPrefixAfterDeploy = "";
 function AddToCart(bagID) {
     $.ajax({
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         type: 'get',
-        url: urlPrefixAfterDeploy + '/Bags/AddToCart',
+        url: urlPrefixAfterDeploy + '/AddToCart.php',
         data: { 'bagID': bagID },
         traditional: true,
         success: function (jsonStrData, textStatus, jqXHR) {
@@ -159,18 +160,18 @@ function loadCartBags() {
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             type: 'get',
-            url: urlPrefixAfterDeploy + '/Orders/MakeOrder',
+            url: urlPrefixAfterDeploy + '/PlaceOrder.php',
             data: { 'orderJsonStr': orderJsonStr, 'gst': gst, 'grandTotal': grandTotal },
             traditional: true,
             success: function (result, textStatus, jqXHR) {
 
                 if (result == false) {
                     alert('You have to login first if you want to make order.')
-                    location.href = urlPrefixAfterDeploy + '/Account/Login?returnUrl=' + urlPrefixAfterDeploy + '/Orders/ShoppingCart';
+                    location.href = urlPrefixAfterDeploy + '/Account/Login.php?returnUrl=' + urlPrefixAfterDeploy + '/Orders/ShoppingCart';
                 } else {
-                    alert('You have to checked out your order successfully, you can check your order in Order Page.')
+                    alert('Checkout successfully, you can check your order in Order Page.')
                     sessionStorage.clear();
-                    location.href = urlPrefixAfterDeploy + '/Orders/ShoppingCart'
+                    location.href = urlPrefixAfterDeploy + '/ShoppingCart.php'
 
                 }
                 var cartAmount = $('#cart-amount');
