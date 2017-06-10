@@ -93,7 +93,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 alert(\"$errorMsg\");
 setTimeout(
 function() {
-  window.location.href = \"/Account/Register.php\";
+  window.location.href = \"/Account/Login.php\";
 }
 , 3000);</script>";
         echo $output;

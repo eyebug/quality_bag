@@ -68,7 +68,7 @@ $session = Session::getSession();
                         <li class="dropdown">
                             <a title="Manage" href="/Manage.php">Hello <?php echo $_SESSION['email']; ?>!</a>
                             <ul class="dropdown-menu nardropcolor">
-                                <li><a href="/Orders.php">Orders</a></li>
+                                <li><a href="/MyOrders.php">Orders</a></li>
                             </ul>
                         </li>
                         <li>

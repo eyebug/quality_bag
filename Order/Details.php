@@ -1,7 +1,6 @@
 <?php
 require_once('../util/autoloader.php');
 require_once('../layout/header.php');
-Session::getSession()->adminOnly();
 try {
     if (!isset($_GET['id'])) {
         header("Location: /Orders.php");
@@ -9,7 +8,7 @@ try {
     }
     $id = intval($_GET['id']);
     $db = DB::getDB();
-    $rows = $db->query("SELECT u.email,u.email, u.name, u.address,o.total, o.gst, o.order_status, o.id
+    $rows = $db->query("SELECT u.email,u.email, u.name, u.address,o.total, o.gst, o.order_status, o.id, o.user_id
                       FROM orders as o  LEFT JOIN users as u
                       ON o.user_id = u.id WHERE o.id = ?", 'i', $id);
     $orderItems = $db->query("
@@ -23,7 +22,11 @@ try {
 } catch (Exception $e) {
     header("Location: /Orders.php");
 }
-$row = $rows[0]; ?>
+$row = $rows[0];
+if ($row['user_id'] !== $_SESSION['id']) {
+    Session::getSession()->adminOnly();
+}
+?>
     <div class="container body-content">
 
         <h2>Details</h2>
@@ -114,7 +117,7 @@ $row = $rows[0]; ?>
                     $%s
                 </td>
             </tr>';
-            foreach($orderItems as $orderItem){
+            foreach ($orderItems as $orderItem) {
                 $output = sprintf($format, $orderItem['image_url'], htmlentities($orderItem['bag_name']),
                     htmlentities($orderItem['description']), $orderItem['quantity'], $orderItem['sub_total']);
                 echo $output;
@@ -126,7 +129,14 @@ $row = $rows[0]; ?>
 
 
         <div>
-            <a href="/Orders.php">Back to List</a>
+            <?php
+            if ($_SESSION['role'] == Session::ROLE_ADMIN) {
+                echo '<a href="/Orders.php">Back to List</a>';
+            } else {
+                echo '<a href="/MyOrders.php">Back to List</a>';
+            }
+            ?>
+
         </div>
 
 
