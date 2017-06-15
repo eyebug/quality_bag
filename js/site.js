@@ -126,7 +126,7 @@ function loadCartBags() {
         content += '<a class="thumbnail pull-left">' +
                         '<img class="media-object" src=' + '"' + product.Image + '"' + 'style="width: 70px; height: 70px;"/></a>';
         content += '<div class="media-body">' +
-                        '<h5 class="media-heading"><a>' + product.BagName + '</a></h5>' +
+                        '<h5 class="media-heading"><a href="/Product/Details.php?id=' + product.BagId + '">' + product.BagName + '</a></h5>' +
                     '</div>';
         content += '</div></td>';
         content += '<td class="col-sm-1 col-md-1" style="text-align: center">';
