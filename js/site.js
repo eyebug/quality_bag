@@ -8,6 +8,34 @@
     }
 });
 
+function AddToCart(productId) {
+    $.ajax({
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        type: 'get',
+        url: urlPrefix + '/AddToCart.php',
+        data: { 'bagID': productId },
+        traditional: true,
+        success: function (resultData) {
+            var cartAmount = $('#cart-amount');
+            var amount = parseInt(cartAmount.text());
+            amount += 1;
+            cartAmount.text(amount);
+            sessionStorage.setItem('cartAmout', amount);
+
+            AddBag2Cart(resultData)
+        },
+        error: function (resultData) {
+            var cartAmount = $('#cart-amount');
+            var amount = parseInt(cartAmount.text());
+            amount += 1;
+            sessionStorage.setItem('cartAmout', amount);
+            cartAmount.text(amount);
+
+            AddBag2Cart(resultData)
+        }
+    });
+}
 
 // Write your Javascript code.
 function imagePreview(elem) {
@@ -36,44 +64,17 @@ function imagePreview(elem) {
     reader.readAsDataURL(elem.files[0]);
 }
 
-//var urlPrefixAfterDeploy = '/chenc75/asp_assignment';
-var urlPrefixAfterDeploy = "";
-function AddToCart(bagID) {
-    $.ajax({
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        type: 'get',
-        url: urlPrefixAfterDeploy + '/AddToCart.php',
-        data: { 'bagID': bagID },
-        traditional: true,
-        success: function (jsonStrData, textStatus, jqXHR) {
-            var cartAmount = $('#cart-amount');
-            var intAmount = parseInt(cartAmount.text());
-            intAmount += 1;
-            cartAmount.text(intAmount);
-            sessionStorage.setItem('cartAmout', intAmount);
+//var urlPrefix = '/chenc75/asp_assignment';
+var urlPrefix = "";
 
-            AddBag2Cart(jsonStrData)
-        },
-        error: function (jsonStrData, textStatus, jqXHR) {
-            var cartAmount = $('#cart-amount');
-            var intAmount = parseInt(cartAmount.text());
-            intAmount += 1;
-            cartAmount.text(intAmount);
-            sessionStorage.setItem('cartAmout', intAmount);
-
-            AddBag2Cart(jsonStrData)
-        }
-    });
-}
 
 function AddBag2Cart(jsonStrData) {
 
-    var jsonObj = $.parseJSON(jsonStrData);
-    var bagId = jsonObj[0].ID;
-    var bagName = jsonObj[0].BagName;
-    var unitPrice = jsonObj[0].Price;
-    var image = jsonObj[0].ImageURL;
+    var cartObj = $.parseJSON(jsonStrData);
+    var bagId = cartObj[0].ID;
+    var bagName = cartObj[0].BagName;
+    var unitPrice = cartObj[0].Price;
+    var image = cartObj[0].ImageURL;
 
     var cartBags = [];
     if (sessionStorage.getItem('cartBags') === null) {
@@ -103,7 +104,7 @@ function AddBag2Cart(jsonStrData) {
     item['UnitPrice'] = unitPrice;
     item['Quantity'] = 1;
     item['SubTotal'] = unitPrice;
-    item['Image'] = urlPrefixAfterDeploy + image;
+    item['Image'] = urlPrefix + image;
     cartBags.push(item);
 
     sessionStorage.setItem('cartBags', JSON.stringify(cartBags));
@@ -111,38 +112,48 @@ function AddBag2Cart(jsonStrData) {
 
 function loadCartBags() {
 
-    var showCartData = $('#show-cart-data');
-    showCartData.empty();
+    var cartDetail = $('#show-cart-data');
+    cartDetail.empty();
     var content = '';
     var grandTotal = 0;
 
-    var cartBags = JSON.parse(sessionStorage.getItem('cartBags'));
-    for (var i in cartBags) {
-        var cartBag = cartBags[i];
-        content += '<tr id=' + '"' + cartBag.BagId + '">';
-        content += '<td class="col-sm-8 col-md-6"><div class="media">';
-        content += '<a class="thumbnail pull-left"><img class="media-object" src=' + '"' + cartBag.Image + '"' + 'style="width: 70px; height: 70px;"/></a>';
-        content += '<div class="media-body"><h5 class="media-heading"><a>' + cartBag.BagName + '</a></h5></div>';
+    var cartArray = JSON.parse(sessionStorage.getItem('cartBags'));
+    for (var i in cartArray) {
+        var product = cartArray[i];
+        content += '<tr id=' + '"' + product.BagId + '">';
+        content += '<td class="col-sm-8 col-md-6">' +
+                        '<div class="media">';
+        content += '<a class="thumbnail pull-left">' +
+                        '<img class="media-object" src=' + '"' + product.Image + '"' + 'style="width: 70px; height: 70px;"/></a>';
+        content += '<div class="media-body">' +
+                        '<h5 class="media-heading"><a>' + product.BagName + '</a></h5>' +
+                    '</div>';
         content += '</div></td>';
         content += '<td class="col-sm-1 col-md-1" style="text-align: center">';
-        content += '<input id=' + '"' + 'quantity' + cartBag.BagId + '"' + 'type="number" class="form-control" value=' + '"' + cartBag.Quantity + '"/>';
+        content += '<input id=' + '"' + 'quantity' + product.BagId + '"' + 'type="number" class="form-control" value=' + '"' + product.Quantity + '"/>';
         content += '</td>';
-        content += '<td class="col-sm-1 col-md-1 text-center">' + '$' + cartBag.UnitPrice + '</td>';
-        content += '<td id=' + '"' + 'subTotal' + cartBag.BagId + '"' + 'class="col-sm-1 col-md-1 text-center">$' + cartBag.SubTotal + '</td>';
-        content += '<td class="col-sm-1 col-md-1"><button id=' + '"' + 'btnRemove' + cartBag.BagId + '"' + 'type="button" class="btn btn-success"><i class="fa fa-trash"></i> Remove</button></td>';
+        content += '<td class="col-sm-1 col-md-1 text-center">' + '$' + product.UnitPrice + '</td>';
+        content += '<td id=' + '"' + 'subTotal' + product.BagId + '"' + 'class="col-sm-1 col-md-1 text-center">$' + product.SubTotal + '</td>';
+        content += '<td class="col-sm-1 col-md-1"><button id=' + '"' + 'btnRemove' + product.BagId + '"' + 'type="button" class="btn btn-success">' +
+                        '<i class="fa fa-trash"></i> Remove</button></td>';
         content += '</tr>';
-        grandTotal += cartBag.SubTotal;
+        grandTotal += product.SubTotal;
     }
     var gst = parseFloat(grandTotal * 15 / 100).toFixed(2);
-    content += '<tr><td></td><td></td><td></td><td nowrap="nowrap"><h3>GST(15%):</h3></td><td class="text-right"><h3 id="gst">$' + gst + '</h3></td></tr>';
+    content += '<tr><td></td><td></td><td></td>' +
+                '<td nowrap="nowrap"><h4>GST(15%):</h4></td>' +
+                '<td class="text-right"><h4 id="gst">$' + gst + '</h4></td></tr>';
     content += '<tr>';
-    content += '<tr><td></td><td></td><td></td><td nowrap="nowrap"><h3>Grand Total:</h3></td><td class="text-right"><h3 id="grandTotal">$' + grandTotal + '</h3></td></tr>';
+    content += '<tr><td></td><td></td><td></td>' +
+                '<td nowrap="nowrap"><h4>Grand Total:</h4></td>' +
+                '<td class="text-right"><h4 id="grandTotal">$' + grandTotal + '</h4></td></tr>';
     content += '<tr>';
-    content += '<td></td><td></td><td></td><td><button id="btnEmptyCart" type="button" class="btn btn-success"><i class="fa fa-trash-o"></i>Empty Cart</button></td>';
+    content += '<td></td><td></td><td></td><td>' +
+                    '<button id="btnEmptyCart" type="button" class="btn btn-success"><i class="fa fa-trash-o"></i>Empty Cart</button></td>';
     content += '<td><button id="btnCheckOut" type="button" class="btn btn-success">Checkout</button></td>';
     content += '</tr>';
 
-    showCartData.append(content);
+    cartDetail.append(content);
 
     $('#btnEmptyCart').click(function () {
         $.sessionStorage.remove('cartBags');
@@ -151,36 +162,28 @@ function loadCartBags() {
         sessionStorage.remove('cartAmout');
     });
     $('#btnCheckOut').click(function () {
-        var orderJson = JSON.parse(sessionStorage.getItem('cartBags'));
+        var orderObj = JSON.parse(sessionStorage.getItem('cartBags'));
         var gst = $('#gst').text().replace('$', '');
         var grandTotal = $('#grandTotal').text().replace('$', '');
-        var orderJsonStr = JSON.stringify(orderJson);
+        var orderJsonStr = JSON.stringify(orderObj);
 
         $.ajax({
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             type: 'get',
-            url: urlPrefixAfterDeploy + '/PlaceOrder.php',
+            url: urlPrefix + '/PlaceOrder.php',
             data: { 'orderJsonStr': orderJsonStr, 'gst': gst, 'grandTotal': grandTotal },
             traditional: true,
-            success: function (result, textStatus, jqXHR) {
-
+            success: function (result) {
                 if (result == false) {
-                    alert('You have to login first if you want to make order.')
-                    location.href = urlPrefixAfterDeploy + '/Account/Login.php?returnUrl=' + urlPrefixAfterDeploy + '/Orders/ShoppingCart';
+                    alert('Please login before you place order.')
+                    location.href = urlPrefix + '/Account/Login.php?returnUrl=' + urlPrefix + '/Orders/ShoppingCart';
                 } else {
-                    alert('Checkout successfully, you can check your order in Order Page.')
+                    alert('Checkout successfully, you can view your order from Order Page.')
                     sessionStorage.clear();
-                    location.href = urlPrefixAfterDeploy + '/ShoppingCart.php'
+                    location.href = urlPrefix + '/ShoppingCart.php'
 
                 }
-                var cartAmount = $('#cart-amount');
-                var intAmount = parseInt(cartAmount.text());
-                intAmount += 1;
-                cartAmount.text(intAmount);
-                sessionStorage.setItem('cartAmout', intAmount);
-
-                AddBag2Cart(jsonStrData)
             },
             error: function (data, textStatus, jqXHR) {
             }
@@ -189,17 +192,17 @@ function loadCartBags() {
 
     // Remove item from cart
     $('[id^=btnRemove]').on('click', function (e) {
-        var btnRemoveId = $(this).attr('id');
-        var removeBagId = btnRemoveId.replace('btnRemove', '');
+        var btnId = $(this).attr('id');
+        var removeBagId = btnId.replace('btnRemove', '');
 
-        var cartBags = JSON.parse(sessionStorage.getItem('cartBags'));
+        var cartArray = JSON.parse(sessionStorage.getItem('cartBags'));
 
-        for (var i in cartBags) {
-            var cartBag = cartBags[i];
+        for (var i in cartArray) {
+            var cartBag = cartArray[i];
             if (cartBag.BagId == removeBagId) {
 
-                cartBags.splice(i, 1);
-                sessionStorage.setItem('cartBags', JSON.stringify(cartBags));
+                cartArray.splice(i, 1);
+                sessionStorage.setItem('cartBags', JSON.stringify(cartArray));
                 break;
             }
         }
@@ -208,19 +211,19 @@ function loadCartBags() {
         bagRow.remove();
 
         var grandTotal = 0;
-        var intAmount = 0;
-        for (var i in cartBags) {
-            var cartBag = cartBags[i];
+        var count = 0;
+        for (var i in cartArray) {
+            var cartBag = cartArray[i];
             grandTotal += cartBag.SubTotal;
-            intAmount += cartBag.Quantity;
+            count += cartBag.Quantity;
         }
 
         var gst = parseFloat(grandTotal * 15 / 100).toFixed(2);
 
         $('#gst').text('$' + gst);
         $('#grandTotal').text('$' + grandTotal);
-        $.sessionStorage.set('cartAmout', intAmount);
-        $('#cart-amount').text(intAmount);
+        $.sessionStorage.set('cartAmout', count);
+        $('#cart-amount').text(count);
     });
 
     $('[id^=quantity]').change(function () {
